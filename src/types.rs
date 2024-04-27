@@ -5,7 +5,7 @@ pub struct HexadecimalColor(pub i32);
 
 impl From<HexadecimalColor> for RGB {
     fn from(value: HexadecimalColor) -> Self {
-        let colors: Vec<u8> = format!("{:x}", value.0)
+        let colors: Vec<u8> = format!("{:06x}", value.0)
             .chars()
             .collect::<Vec<char>>()
             .chunks(2)
@@ -14,11 +14,4 @@ impl From<HexadecimalColor> for RGB {
 
         RGB::new(colors[0], colors[1], colors[2])
     }
-}
-
-pub enum Flags {
-    Lesbian,
-    Gay,
-    Bisexual,
-    Transgender,
 }
