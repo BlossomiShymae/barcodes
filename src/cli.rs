@@ -20,6 +20,12 @@ pub struct Cli {
         help = "The character to use when drawing the flag."
     )]
     pub character: Option<String>,
+    #[arg(
+        short = 'r',
+        long = "random",
+        help = "The color to randomize when drawing the barcode."
+    )]
+    pub random: bool,
 }
 
 #[derive(Subcommand)]

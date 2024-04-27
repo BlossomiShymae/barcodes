@@ -19,9 +19,12 @@ fn main() {
 
     let mut buffer = String::from("");
 
-    for _ in 0..length {
+    for i in 0..length {
         for _ in 0..chunk {
-            let color = *colors.choose(&mut thread_rng()).unwrap();
+            let mut color = *colors.choose(&mut thread_rng()).unwrap();
+            if !cli.random {
+                color = *colors.get(i as usize).unwrap();
+            }
 
             match cli.character {
                 None => buffer.push_str(
