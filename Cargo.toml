@@ -1,5 +1,13 @@
 [package]
 name = "barcodes"
+authors = ["Blossomi Shymae"]
+description = "Print your pride in the terminal!"
+repository = "https://github.com/BlossomiShymae/barcodes"
+license = "GPL-3.0-only"
+
+keywords = ["terminal", "cli", "pride", "lgbt"]
+categories = ["command-line-utilities"]
+
 version = "0.1.0"
 edition = "2021"
 
