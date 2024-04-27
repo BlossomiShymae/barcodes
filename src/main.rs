@@ -36,10 +36,7 @@ fn main() {
         }
     }
 
-    let line = buffer.clone();
-    for _ in 0..colors_length - 1 {
-        buffer.push_str(line.as_str());
+    for _ in 0..colors_length {
+        println!("{buffer}");
     }
-
-    println!("{buffer}");
 }
