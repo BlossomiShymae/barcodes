@@ -7,6 +7,8 @@ use crate::types::HexadecimalColor;
 pub struct Cli {
     #[command(subcommand)]
     pub command: Flags,
+    #[arg(short = 'l', long = "length", default_value_t = 1)]
+    pub length: i32,
 }
 
 #[derive(Subcommand)]

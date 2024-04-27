@@ -12,7 +12,6 @@ pub const TYPE_SORTS: [&str; 4] = ["█", "▊", "▌", "▎"];
 fn main() {
     let cli = Cli::parse();
     let colors = cli.command.colors();
-    let colors_length = 2;
 
     let size = termsize::get().unwrap();
     let length = colors.len() as u16;
@@ -36,7 +35,7 @@ fn main() {
         }
     }
 
-    for _ in 0..colors_length {
+    for _ in 0..cli.length {
         println!("{buffer}");
     }
 }
