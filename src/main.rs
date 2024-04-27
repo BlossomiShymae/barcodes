@@ -22,16 +22,22 @@ fn main() {
     for _ in 0..length {
         for _ in 0..chunk {
             let color = *colors.choose(&mut thread_rng()).unwrap();
-            buffer.push_str(
-                format!(
-                    "{}",
-                    TYPE_SORTS
-                        .choose(&mut thread_rng())
-                        .unwrap()
-                        .color(RGB::from(color))
-                )
-                .as_str(),
-            )
+
+            match cli.character {
+                None => buffer.push_str(
+                    format!(
+                        "{}",
+                        TYPE_SORTS
+                            .choose(&mut thread_rng())
+                            .unwrap()
+                            .color(RGB::from(color))
+                    )
+                    .as_str(),
+                ),
+                Some(ref char) => {
+                    buffer.push_str(format!("{}", char.clone().color(RGB::from(color))).as_str())
+                }
+            }
         }
     }
 

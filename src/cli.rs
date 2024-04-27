@@ -14,6 +14,12 @@ pub struct Cli {
         help = "The vertical length of the barcode."
     )]
     pub length: i8,
+    #[arg(
+        short = 'c',
+        long = "character",
+        help = "The character to use when drawing the flag."
+    )]
+    pub character: Option<String>,
 }
 
 #[derive(Subcommand)]
