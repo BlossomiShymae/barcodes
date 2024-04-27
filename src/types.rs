@@ -1,4 +1,24 @@
-pub struct Barcode<const N: usize> {
-    pub hex_codes: [i32; N],
-    pub width: i8,
+use colorful::RGB;
+
+#[derive(Clone, Copy)]
+pub struct HexadecimalColor(pub i32);
+
+impl From<HexadecimalColor> for RGB {
+    fn from(value: HexadecimalColor) -> Self {
+        let colors: Vec<u8> = format!("{:x}", value.0)
+            .chars()
+            .collect::<Vec<char>>()
+            .chunks(2)
+            .map(|c| u8::from_str_radix(&c.iter().collect::<String>(), 16).unwrap())
+            .collect();
+
+        RGB::new(colors[0], colors[1], colors[2])
+    }
+}
+
+pub enum Flags {
+    Lesbian,
+    Gay,
+    Bisexual,
+    Transgender,
 }
