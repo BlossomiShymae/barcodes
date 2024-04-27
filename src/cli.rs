@@ -26,6 +26,12 @@ pub struct Cli {
         help = "The color to randomize when drawing the barcode."
     )]
     pub random: bool,
+    #[arg(
+        short = 's',
+        long = "solid",
+        help = "Uses a solid block for drawing the barcode. Overrides the character flag."
+    )]
+    pub solid: bool,
 }
 
 #[derive(Subcommand)]

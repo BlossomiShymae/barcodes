@@ -26,6 +26,11 @@ fn main() {
                 color = *colors.get(i as usize).unwrap();
             }
 
+            if cli.solid {
+                buffer.push_str(format!("{}", TYPE_SORTS[0].color(RGB::from(color))).as_str());
+                continue;
+            }
+
             match cli.character {
                 None => buffer.push_str(
                     format!(
