@@ -7,8 +7,13 @@ use crate::types::HexadecimalColor;
 pub struct Cli {
     #[command(subcommand)]
     pub command: Flags,
-    #[arg(short = 'l', long = "length", default_value_t = 1)]
-    pub length: i32,
+    #[arg(
+        short = 'l',
+        long = "length",
+        default_value_t = 1,
+        help = "The vertical length of the barcode."
+    )]
+    pub length: i8,
 }
 
 #[derive(Subcommand)]
