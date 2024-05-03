@@ -2,6 +2,8 @@
 
 barcodes is a CLI utility to display your pride in the terminal.
 
+![](preview.png)
+
 ## Install
 
 Install barcodes:
