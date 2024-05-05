@@ -8,6 +8,7 @@ pub struct Cli {
     #[command(subcommand)]
     pub command: Flags,
     #[arg(
+        global = true,
         short = 'l',
         long = "length",
         default_value_t = 1,
@@ -15,18 +16,21 @@ pub struct Cli {
     )]
     pub length: i8,
     #[arg(
+        global = true,
         short = 'c',
         long = "character",
         help = "The character to use when drawing the barcode"
     )]
     pub character: Option<String>,
     #[arg(
+        global = true,
         short = 'r',
         long = "random",
         help = "The color to randomize when drawing the barcode."
     )]
     pub random: bool,
     #[arg(
+        global = true,
         short = 's',
         long = "solid",
         help = "Uses a solid block for drawing the barcode. Overrides the character flag."
