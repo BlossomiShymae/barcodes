@@ -1,3 +1,5 @@
+use std::io::{self, Write};
+
 use clap::Parser;
 use cli::Cli;
 use colorful::{Colorful, RGB};
@@ -50,6 +52,7 @@ fn main() {
     }
 
     for _ in 0..cli.length {
-        println!("{buffer}");
+        print!("{buffer}");
     }
+    let _ = io::stdout().flush();
 }
