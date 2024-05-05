@@ -17,7 +17,7 @@ pub struct Cli {
     #[arg(
         short = 'c',
         long = "character",
-        help = "The character to use when drawing the flag."
+        help = "The character to use when drawing the barcode"
     )]
     pub character: Option<String>,
     #[arg(
