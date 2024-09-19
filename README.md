@@ -11,6 +11,26 @@ Install barcodes:
 cargo install --git https://github.com/BlossomiShymae/barcodes
 ```
 
+## Supported flags
+
+- Lesbian
+- Gay
+- Bisexual
+- Transgender
+- Genderfluid
+- Non-binary
+- Asexual
+- Pansexual
+- Aromantic
+- Agender
+- Genderflux
+- Genderqueer
+- Transfeminine
+- Transmasculine
+- Aroace
+
+Submit an issue/PR if you like to see your flag supported! :3
+
 ## Contributors
 
 
