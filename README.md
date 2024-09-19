@@ -4,6 +4,13 @@ barcodes is a CLI utility to display your pride in the terminal.
 
 ![](preview.png)
 
+## Contributors
+
+
+<a href="https://github.com/BlossomiShymae/barcodes/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=BlossomiShymae/barcodes" />
+</a>
+
 ## Install
 
 Install barcodes:
@@ -30,10 +37,3 @@ cargo install --git https://github.com/BlossomiShymae/barcodes
 - Aroace
 
 Submit an issue/PR if you like to see your flag supported! :3
-
-## Contributors
-
-
-<a href="https://github.com/BlossomiShymae/barcodes/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=BlossomiShymae/barcodes" />
-</a>
