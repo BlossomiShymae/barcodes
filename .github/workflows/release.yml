@@ -6,24 +6,100 @@ on:
 
 jobs:
   release:
-    name: release ${{ matrix.target }}
-    runs-on: ubuntu-latest
+    name: Release - ${{ matrix.platform.os_name }}
+    if: startsWith( github.ref, 'refs/tags/' ) || github.ref == 'refs/tags/test-release'
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - target: x86_64-pc-windows-gnu
-            archive: zip
-          - target: x86_64-unknown-linux-musl
-            archive: tar.gz tar.xz tar.zst
-          - target: x86_64-apple-darwin
-            archive: zip
+        platform:
+          - os_name: Linux-x86_64
+            os: ubuntu-20.04
+            target: x86_64-unknown-linux-musl
+            bin: barcodes
+            name: barcodes-x86_64-unknown-linux-musl.tar.gz
+            cross: false
+            cargo_command: cargo
+          - os_name: macOS-x86_64
+            os: macOS-latest
+            target: x86_64-apple-darwin
+            bin: barcodes
+            name: barcodes-x86_64-apple-darwin.tar.gz
+            cross: false
+            cargo_command: cargo
+          - os_name: Windows-x86_64
+            os: Windows-latest
+            target: x86_64-pc-windows-msvc
+            bin: barcodes.exe
+            name: barcodes-x86_64-pc-windows-msvc.zip
+            cross: false
+            cargo_command: cargo
+
+    runs-on: ${{ matrix.platform.os }}
     steps:
-      - uses: actions/checkout@master
-      - name: Compile and release
-        uses: rust-build/rust-build.action@v1.4.5
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install toolchain if not cross-compiling
+        uses: dtolnay/rust-toolchain@stable
         with:
-          RUSTTARGET: ${{ matrix.target }}
-          ARCHIVE_TYPES: ${{ matrix.archive }}
+          targets: ${{ matrix.platform.target }}
+        if: ${{ !matrix.platform.cross }}
+      - name: Install musl-tools on Linux
+        run: sudo apt-get update --yes && sudo apt-get install --yes musl-tools
+        if: contains(matrix.platform.os, 'ubuntu') && !matrix.platform.cross
+      - name: Install cross if cross-compiling (*nix)
+        id: cross-nix
+        shell: bash
+        run: |
+          set -e
+          export TARGET="$HOME/bin"
+          mkdir -p "$TARGET"
+          ./bootstrap/bootstrap-barcodes.sh
+          "$HOME/bin/barcodes" --project cross-rs/cross --matching musl --in .          
+        if: matrix.platform.cross && !contains(matrix.platform.os, 'windows')
+      - name: Install cross if cross-compiling (Windows)
+        id: cross-windows
+        shell: powershell
+        run: |
+          .\bootstrap\bootstrap-barcodes.ps1
+          .\barcodes --project cross-rs/cross --in .          
+        if: matrix.platform.cross && contains(matrix.platform.os, 'windows')
+      - name: Build binary (*nix)
+        shell: bash
+        run: |
+          ${{ matrix.platform.cargo_command }} build --locked --release --target ${{ matrix.platform.target }}          
+        if: ${{ !contains(matrix.platform.os, 'windows') }}
+      - name: Build binary (Windows)
+        # We have to use the platform's native shell. If we use bash on
+        # Windows then OpenSSL complains that the Perl it finds doesn't use
+        # the platform's native paths and refuses to build.
+        shell: powershell
+        run: |
+          & ${{ matrix.platform.cargo_command }} build --locked --release --target ${{ matrix.platform.target }}          
+        if: contains(matrix.platform.os, 'windows')
+      - name: Strip binary
+        shell: bash
+        run: |
+          strip target/${{ matrix.platform.target }}/release/${{ matrix.platform.bin }}          
+        # strip doesn't work with cross-arch binaries on Linux or Windows.
+        if: ${{ !(matrix.platform.cross || matrix.platform.target == 'aarch64-pc-windows-msvc') }}
+      - name: Package as archive
+        shell: bash
+        run: |
+          cd target/${{ matrix.platform.target }}/release
+          if [[ "${{ matrix.platform.os }}" == "windows-latest" ]]; then
+            7z a ../../../${{ matrix.platform.name }} ${{ matrix.platform.bin }} ../../../README.md ../../../LICENSE
+          else
+            tar czvf ../../../${{ matrix.platform.name }} ${{ matrix.platform.bin }} ../../../README.md ../../../LICENSE
+          fi
+          cd -          
+      - name: Publish release artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: barcodes-${{ matrix.platform.os_name }}
+          path: "barcodes*"
+        if: github.ref == 'refs/tags/test-release'
+      - name: Publish GitHub release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: "barcodes*"
+        if: startsWith( github.ref, 'refs/tags/' )
