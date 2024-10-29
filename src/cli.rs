@@ -54,7 +54,8 @@ pub enum Flags {
     Genderqueer,
     Transfeminine,
     Transmasculine,
-    Aroace
+    Aroace,
+    Ally,
 }
 
 impl Flags {
@@ -166,6 +167,16 @@ impl Flags {
                 HexadecimalColor(0xffffff),
                 HexadecimalColor(0x62aedc),
                 HexadecimalColor(0x203856),
+            ],
+            Self::Ally => vec![
+                HexadecimalColor(0x000000),
+                HexadecimalColor(0xFFFFFF),
+                HexadecimalColor(0xF00000),
+                HexadecimalColor(0xFE7E00),
+                HexadecimalColor(0xFFFF00),
+                HexadecimalColor(0x007A41),
+                HexadecimalColor(0x4041FE),
+                HexadecimalColor(0xA001BE),
             ],
         }
     }
