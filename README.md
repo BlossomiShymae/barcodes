@@ -35,5 +35,6 @@ cargo install --git https://github.com/BlossomiShymae/barcodes
 - Transfeminine
 - Transmasculine
 - Aroace
+- Ally
 
 Submit an issue/PR if you like to see your flag supported! :3
