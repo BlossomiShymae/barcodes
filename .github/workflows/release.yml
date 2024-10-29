@@ -27,7 +27,7 @@ jobs:
             cross: false
             cargo_command: cargo
           - os_name: Windows-x86_64
-            os: Windows-latest
+            os: windows-latest
             target: x86_64-pc-windows-msvc
             bin: barcodes.exe
             name: barcodes-x86_64-pc-windows-msvc.zip
@@ -85,11 +85,12 @@ jobs:
       - name: Package as archive
         shell: bash
         run: |
+          cp {README.md,LICENSE} target/${{ matrix.platform.target }}/release
           cd target/${{ matrix.platform.target }}/release
           if [[ "${{ matrix.platform.os }}" == "windows-latest" ]]; then
-            7z a ../../../${{ matrix.platform.name }} ${{ matrix.platform.bin }}
+            7z a ../../../${{ matrix.platform.name }} ${{ matrix.platform.bin }} README.md LICENSE
           else
-            tar czvf ../../../${{ matrix.platform.name }} ${{ matrix.platform.bin }}
+            tar czvf ../../../${{ matrix.platform.name }} ${{ matrix.platform.bin }} README.md LICENSE
           fi
           cd -          
       - name: Publish release artifacts
