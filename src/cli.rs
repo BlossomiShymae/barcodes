@@ -158,7 +158,7 @@ impl Flags {
                 HexadecimalColor(0x74dfff),
                 HexadecimalColor(0x9aebff),
                 HexadecimalColor(0xcdf5fe),
-                HexadecimalColor(0xfff8abd),
+                HexadecimalColor(0xff8abd),
             ],
             Self::Aroace => vec![
                 HexadecimalColor(0xe28c00),
